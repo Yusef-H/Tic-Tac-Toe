@@ -1,0 +1,41 @@
+
+body{
+    border: 2px solid red;
+    background-color: #fcf7e8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    
+}
+
+.title{
+    border: 2px solid green;
+    width: 400px;
+    height: 100px;
+}
+
+.turns{
+    border: 2px solid green;
+    width: 400px;
+    height: 100px;
+}
+
+.board{
+    border: 2px solid black;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    
+}
+
+.cell{
+    border: 2px solid gray;
+
+    width: 100px;
+    height: 100px;
+}
