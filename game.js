@@ -27,34 +27,6 @@ const gameBoard = ( () => {
 gameBoard.initializeBoard();
 console.log(gameBoard.getBoard());
 
-buttons = document.querySelectorAll('.cell');
-
-renderContents();
-var turn = 1;
-
-function renderContents(){
-    buttons.forEach(button => {
-        if(gameBoard.getBoard()[button.value].status == "mark")
-        {
-            if(turn == 1){
-                gameBoard.getBoard()[button.value].status = "X"
-            }
-            else{
-                gameBoard.getBoard()[button.value].status = "Y"
-            }
-            turn = 3 - turn;
-            console.log(firstPlayer.setPatterns);
-            console.log(secondPlayer.setPatterns);
-            console.log(turn);
-            buttonHtml = document.createElement('h1');
-            buttonHtml.innerHTML = gameBoard.getBoard()[button.value].status;
-            button.appendChild(buttonHtml);
-            console.log(gameBoard.getBoard());
-            return;
-        }
-    })
-}
-
 function clearContents() {
     buttons.forEach(button => {
         while(button.firstChild){
@@ -63,7 +35,39 @@ function clearContents() {
     })
 }
 
-function play(){
+buttons = document.querySelectorAll('.cell');
+
+
+var turn = 1;
+
+function renderContents(button){
+    if(turn == 1){
+        gameBoard.getBoard()[button.value].status = "X";   
+    }
+    else{
+        gameBoard.getBoard()[button.value].status = "O"
+    }
+
+    turn = 3 - turn;
+    console.log(firstPlayer.setPatterns);
+    console.log(secondPlayer.setPatterns);
+    buttonHtml = document.createElement('h1');
+    buttonHtml.innerHTML = gameBoard.getBoard()[button.value].status;
+    button.appendChild(buttonHtml);
+    console.log(gameBoard.getBoard());
+
+    if(checkWin(firstPlayer)){
+        console.log("First Player won");
+        startGame();
+
+    }
+    if(checkWin(secondPlayer)){
+        console.log("Second Player Won");
+        startGame();
+    }
+}
+
+function gameWatch(){
     buttons.forEach(button => {
         button.addEventListener('click', function(){
 
@@ -77,9 +81,8 @@ function play(){
             else{
                 secondPlayer.setPatterns.add(Number(button.value));
             }
-            gameBoard.getBoard()[button.value].status = "mark";
-            renderContents(turn);
-            return;
+            renderContents(button);
+            
         })
         
     
@@ -98,17 +101,19 @@ const playerFactory = (playerNum) => {
 
 const firstPlayer = playerFactory(1);
 const secondPlayer = playerFactory(2);
+gameWatch();
 
+startGame();
+function startGame(){
+    console.log('a');
+    firstPlayer.setPatterns = new Set();
+    secondPlayer.setPatterns = new Set();
+    clearContents();
+    gameBoard.clearBoard();
+    turn = 1;
+}
 
-game(firstPlayer);
-game(secondPlayer);
-
-
-function game(player){
-    
-
-    play(turn);
-    
+function checkWin(player){
     if((player.setPatterns.has(0) && player.setPatterns.has(1) && player.setPatterns.has(2)) ||
         (player.setPatterns.has(3) && player.setPatterns.has(4) && player.setPatterns.has(5)) ||
         (player.setPatterns.has(6) && player.setPatterns.has(7) && player.setPatterns.has(8)) || 
@@ -117,16 +122,12 @@ function game(player){
         (player.setPatterns.has(2) && player.setPatterns.has(5) && player.setPatterns.has(8)) ||
         (player.setPatterns.has(0) && player.setPatterns.has(4) && player.setPatterns.has(8)) ||
         (player.setPatterns.has(2) && player.setPatterns.has(4) && player.setPatterns.has(6)) ){
-            console.log(player.playerNum + "Has Won");
-            gameBoard.clearBoard();
-            clearContents();
-            player.setPatterns = new Set();
+            return true;
     }
-        
-       
-    
-        
-        
-    
+    else{
+        return false;
+    }
 }
+
+
 
