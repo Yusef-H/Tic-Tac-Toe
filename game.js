@@ -36,9 +36,13 @@ function clearContents() {
 }
 
 buttons = document.querySelectorAll('.cell');
-
+const turns = document.querySelector(".turns");
 
 var turn = 1;
+const turnDisplay = document.createElement('h1');
+turnDisplay.innerHTML = "Player "+ turn + " turn";
+
+turns.appendChild(turnDisplay);
 
 function renderContents(button){
     if(turn == 1){
@@ -56,12 +60,18 @@ function renderContents(button){
     button.appendChild(buttonHtml);
     console.log(gameBoard.getBoard());
 
+    
+    turnDisplay.innerHTML = "Player "+ turn + " turn";
+    turns.appendChild(turnDisplay);
+
     if(checkWin(firstPlayer)){
+        turnDisplay.innerHTML = "Player "+ (3-turn) + " Have Won The Game!";
         console.log("First Player won");
         startGame();
 
     }
     if(checkWin(secondPlayer)){
+        turnDisplay.innerHTML = "Player "+ (3-turn) + " Have Won The Game!";
         console.log("Second Player Won");
         startGame();
     }
